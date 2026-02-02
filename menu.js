@@ -1,5 +1,5 @@
 // menu.js
-// Versión actualizada con botones adicionales de Evidencia y Reporte de Incidencias
+// Versión actualizada con Cierre de Sesión Inteligente y Sistema de Turnos GPS
 
 document.addEventListener("DOMContentLoaded", () => {
   const auth = firebase.auth();
@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const evidenciaBtn = document.getElementById("evidencia-ejercicios-btn");
   const reporteBtn = document.getElementById("reporte-incidencias-btn");
   const logoutBtn = document.getElementById("logout-btn");
+
+  let currentUserDisplayName = "";
 
   // ——— Función para aplicar color de sirena ———
   function applySiren(colorHex) {
@@ -42,63 +44,30 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === 'sirenColor' && e.newValue) applySiren(e.newValue);
   });
 
-  // --- Modal de cierre de sesión ---
-  const logoutModal = document.createElement("div");
-  logoutModal.id = "logout-modal";
-  logoutModal.setAttribute("role", "dialog");
-  logoutModal.setAttribute("aria-modal", "true");
-  logoutModal.style.display = "none";
-
-  const modalContent = document.createElement("div");
-  modalContent.id = "logout-modal-content";
-
-  const modalMessage = document.createElement("p");
-  modalMessage.classList.add("modal-message");
-  modalMessage.textContent = "Gracias por preferir a Liderman Alarmas.";
-
-  const continueButton = document.createElement("button");
-  continueButton.classList.add("modal-button");
-  continueButton.textContent = "Continuar";
-  continueButton.addEventListener("click", async () => {
-    try {
-      await auth.signOut();
-      window.location.href = "index.html";
-    } catch {
-      alert("Error al cerrar sesión. Intenta de nuevo.");
-    }
-  });
-
-  modalContent.append(modalMessage, continueButton);
-  logoutModal.appendChild(modalContent);
-  document.body.appendChild(logoutModal);
-
-  // --- Control de acceso y saludo ---
   // --- Control de acceso y saludo ---
   auth.onAuthStateChanged(async user => {
     if (!user) return window.location.href = "index.html";
     const emailName = user.email.trim().split("@")[0];
-    let displayName = emailName;
+    currentUserDisplayName = emailName; // Default
 
     try {
       const doc = await db.collection("userMap").doc(emailName).get();
       if (doc.exists && doc.data().nombre) {
-        displayName = doc.data().nombre;
+        currentUserDisplayName = doc.data().nombre;
       }
-      statusMessageElem.textContent = `Bienvenido, ${displayName}`;
+      statusMessageElem.textContent = `Bienvenido, ${currentUserDisplayName}`;
 
       // ——— Lógica Inteligente de Inicio de Labores ———
-      checkActiveSession(displayName);
+      checkActiveSession(currentUserDisplayName);
 
     } catch (e) {
       console.error("Error obteniendo nombre de usuario:", e);
       statusMessageElem.textContent = `Bienvenido, ${emailName}`;
-      // Intentamos chequear sesión con el emailName si falla lo otro
       checkActiveSession(emailName);
     }
   });
 
-  // Función para verificar si ya existe sesión activa
-  // Función para verificar si ya existe sesión activa
+  // Función para verificar si ya existe sesión activa (Inicio de Turno)
   async function checkActiveSession(usuarioNombre) {
     const checkingOverlay = document.getElementById("checking-session-overlay");
     try {
@@ -118,12 +87,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       console.error("Error verificando sesiones activas:", error);
-      // En error, ocultar bloqueo
+      // En error, ocultar bloqueo para no trabar app
       if (checkingOverlay) checkingOverlay.style.display = "none";
     }
   }
 
-  // Función para mostrar el modal y manejar eventos
+  // Función para mostrar el modal de INICIO
   function showStartWorkModal(usuarioNombre) {
     const startModal = document.getElementById("start-work-modal");
     const confirmBtn = document.getElementById("start-work-confirm");
@@ -132,19 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!startModal) return;
 
-    // Asegurar que spinner ya no esté
     if (checkingOverlay) checkingOverlay.style.display = "none";
-
     startModal.style.display = "flex";
 
-    // Manejadores de eventos (usamos 'once' para evitar duplicados si se llama varias veces)
     confirmBtn.onclick = () => {
       confirmBtn.textContent = "Obteniendo ubicación...";
       confirmBtn.disabled = true;
 
       if (!navigator.geolocation) {
         alert("Tu navegador no soporta geolocalización.");
-        saveSession(usuarioNombre, "No soportado");
+        saveSession(usuarioNombre, "No soportado", "inicio");
         return;
       }
 
@@ -153,11 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           const ubicacion = `${lat}, ${lng}`;
-          saveSession(usuarioNombre, ubicacion);
+          saveSession(usuarioNombre, ubicacion, "inicio");
         },
         (error) => {
           console.warn("Error GPS:", error);
-          saveSession(usuarioNombre, "Ubicación denegada/error");
+          saveSession(usuarioNombre, "Ubicación denegada/error", "inicio");
         }
       );
     };
@@ -167,19 +133,154 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Función para guardar en Firestore con Zona Horaria Perú
-  function saveSession(usuario, ubicacion) {
+  // ——— LÓGICA DE CIERRE DE SESIÓN INTELIGENTE ———
+  logoutBtn.addEventListener("click", () => handleLogout(currentUserDisplayName));
+
+  async function handleLogout(usuarioNombre) {
+    const checkingOverlay = document.getElementById("checking-session-overlay");
+    const logoutModal = document.getElementById("logout-confirm-modal");
+    const logoutMsg = document.getElementById("logout-message");
+    const confirmBtn = document.getElementById("logout-confirm-btn");
+    const cancelBtn = document.getElementById("logout-cancel-btn");
+
+    if (!logoutModal) return;
+
+    // 1. Mostrar spinner mientras consultamos
+    if (checkingOverlay) {
+      checkingOverlay.querySelector("h2").textContent = "Verificando cierre...";
+      checkingOverlay.style.display = "flex";
+    }
+
+    try {
+      // 2. Buscar si hay documento 'activo' en 'conexiones'
+      const snapshot = await db.collection('conexiones')
+        .where('usuario', '==', usuarioNombre)
+        .where('estado', '==', 'activo')
+        .orderBy("timestamp", "desc") // Traer el último por si hay varios (no debería)
+        .limit(1)
+        .get();
+
+      if (checkingOverlay) checkingOverlay.style.display = "none"; // Ocultar spinner
+
+      // 3. Configurar Modal
+      logoutModal.style.display = "flex";
+
+      let docIdToClose = null;
+
+      if (!snapshot.empty) {
+        // ESCENARIO: SI HAY TURNO ACTIVO
+        docIdToClose = snapshot.docs[0].id; // ID del documento a cerrar
+        logoutMsg.innerHTML = `Identificamos que tu turno sigue <b>ACTIVO</b>.<br><br>
+                               Al cerrar sesión estás indicando que terminaste tu horario de trabajo.<br>
+                               Se registrará tu hora y ubicación de salida.<br><br>
+                               ¿Deseas finalizar el turno y salir?`;
+      } else {
+        // ESCENARIO: NO HAY TURNO ACTIVO (Solo visualizó)
+        docIdToClose = null;
+        logoutMsg.innerHTML = `No se encontró un registro de inicio de labores activo.<br><br>
+                               Si cierras sesión ahora, <b>NO</b> se guardará registro de tiempo de trabajo.<br><br>
+                               ¿Deseas salir de todas formas?`;
+      }
+
+      // 4. Manejadores del Modal de Cierre
+
+      // Limpiar eventos anteriores para evitar duplicados si reabre
+      const newConfirm = confirmBtn.cloneNode(true);
+      confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+
+      const newCancel = cancelBtn.cloneNode(true);
+      cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+
+      newCancel.onclick = () => {
+        logoutModal.style.display = "none";
+      };
+
+      newConfirm.onclick = async () => {
+        newConfirm.textContent = "Procesando...";
+        newConfirm.disabled = true;
+
+        if (docIdToClose) {
+          // CERRAR TURNO: Pedir GPS y Actualizar
+          if (!navigator.geolocation) {
+            await closeSessionRequest(docIdToClose, "No soportado");
+          } else {
+            navigator.geolocation.getCurrentPosition(
+              async (pos) => {
+                const loc = `${pos.coords.latitude}, ${pos.coords.longitude}`;
+                await closeSessionRequest(docIdToClose, loc);
+              },
+              async (err) => {
+                console.warn(err);
+                await closeSessionRequest(docIdToClose, "Ubicación denegada/error");
+              }
+            );
+          }
+        } else {
+          // SALIDA SIMPLE (Sin turno)
+          performFirebaseLogout();
+        }
+      };
+
+    } catch (error) {
+      console.error("Error al verificar cierre:", error);
+      if (checkingOverlay) checkingOverlay.style.display = "none";
+      alert("Ocurrió un error al verificar tu estado. Intenta de nuevo.");
+    }
+  }
+
+  async function closeSessionRequest(docId, ubicacionSalida) {
+    // Obtener fecha y hora en Perú
+    const now = new Date();
+    const dateOptions = { timeZone: 'America/Lima', day: '2-digit', month: '2-digit', year: 'numeric' };
+    // Ajuste: si quieres hora salida separada
+    const timeOptions = { timeZone: 'America/Lima', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+
+    const fechaSalida = new Intl.DateTimeFormat('es-PE', dateOptions).format(now);
+    const horaSalida = new Intl.DateTimeFormat('es-PE', timeOptions).format(now);
+
+    try {
+      await db.collection('conexiones').doc(docId).update({
+        estado: 'cerrado',
+        fecha_salida: fechaSalida,
+        hora_salida: horaSalida,
+        ubicacion_salida: ubicacionSalida,
+        ended_at: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log("Turno cerrado correctamente.");
+      performFirebaseLogout();
+    } catch (e) {
+      console.error("Error cerrando turno:", e);
+      alert("No se pudo cerrar el turno en base de datos. Revisa tu conexión.");
+      const confirmBtn = document.getElementById("logout-confirm-btn");
+      if (confirmBtn) {
+        confirmBtn.textContent = "Aceptar y Salir";
+        confirmBtn.disabled = false;
+      }
+    }
+  }
+
+  function performFirebaseLogout() {
+    auth.signOut().then(() => {
+      window.location.href = "index.html";
+    }).catch(e => {
+      console.error(e);
+      alert("Error al desconectar de Firebase.");
+    });
+  }
+
+  // Función GENERICA para guardar sesión (Usada solo en INICIO)
+  function saveSession(usuario, ubicacion, tipo) {
+    if (tipo !== "inicio") return; // Solo lógica de inicio aquí
+
     const startModal = document.getElementById("start-work-modal");
 
     // Obtener fecha y hora en Perú
     const now = new Date();
-
-    // Formateadores para 'America/Lima'
     const dateOptions = { timeZone: 'America/Lima', day: '2-digit', month: '2-digit', year: 'numeric' };
     const timeOptions = { timeZone: 'America/Lima', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
 
-    const fechaPeru = new Intl.DateTimeFormat('es-PE', dateOptions).format(now); // "dd/mm/yyyy"
-    const horaPeru = new Intl.DateTimeFormat('es-PE', timeOptions).format(now); // "HH:mm:ss"
+    const fechaPeru = new Intl.DateTimeFormat('es-PE', dateOptions).format(now);
+    const horaPeru = new Intl.DateTimeFormat('es-PE', timeOptions).format(now);
 
     db.collection('conexiones').add({
       fecha: fechaPeru,
@@ -187,11 +288,11 @@ document.addEventListener("DOMContentLoaded", () => {
       usuario: usuario,
       ubicacion: ubicacion,
       estado: 'activo',
-      timestamp: firebase.firestore.FieldValue.serverTimestamp() // Para ordenamiento interno si se requiere
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
       .then(() => {
         console.log("Sesión iniciada correctamente.");
-        startModal.style.display = "none";
+        if (startModal) startModal.style.display = "none";
         alert(`¡Bienvenido! Inicio de labores registrado a las ${horaPeru}.`);
       })
       .catch((error) => {
@@ -224,13 +325,13 @@ document.addEventListener("DOMContentLoaded", () => {
   contactosBtn.addEventListener("click", () => window.location.href = "contactos.html");
   evidenciaBtn.addEventListener("click", () => window.location.href = "evidencia-ejercicios.html");
   reporteBtn.addEventListener("click", () => window.location.href = "reporte-incidencias.html");
-  logoutBtn.addEventListener("click", () => logoutModal.style.display = "flex");
+  // Logout ahora manejado por el listener de arriba 'handleLogout'
 
-  // --- Cerrar modal con Escape o clic fuera ---
+  // --- Cerrar modal Logout con Escape ---
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape") logoutModal.style.display = "none";
-  });
-  logoutModal.addEventListener("click", e => {
-    if (e.target === logoutModal) logoutModal.style.display = "none";
+    const logoutM = document.getElementById("logout-confirm-modal");
+    if (e.key === "Escape" && logoutM && logoutM.style.display === "flex") {
+      logoutM.style.display = "none";
+    }
   });
 });
