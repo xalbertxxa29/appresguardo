@@ -1,0 +1,34 @@
+<!-- reporte-incidencias.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reporte de Incidencias</title>
+  <link rel="stylesheet" href="reporte-incidencias.css"/>
+</head>
+<body>
+  <div class="form-container">
+    <h1 id="welcome-message">Cargando...</h1>
+
+    <label for="desc-textarea">Descripción de la incidencia</label>
+    <textarea id="desc-textarea" rows="5" placeholder="Escribe aquí la descripción..." required></textarea>
+
+    <div id="photo-preview-container">
+      <img id="photo-preview" alt="Previsualización"/>
+    </div>
+
+    <button id="camera-btn" class="evi-btn camera-btn">📷 Cámara</button>
+    <button id="enviar-btn" class="evi-btn enviar-btn">📤 Enviar</button>
+    <button id="back-btn"   class="evi-btn back-btn">↩️ Atrás</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="reporte-incidencias.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Control de Sirena</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+    .color-btn {
+      width: 120px;
+      padding: 1rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #000;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .color-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    #btn-red    { background: #ff4d4d; }
+    #btn-yellow { background: #ffd11a; }
+    #btn-green  { background: #4dff4d; }
+  </style>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <!-- Tu configuración de Firebase -->
+  <script src="firebase-config.js"></script>
+</head>
+<body>
+  <h1>Control de Sirena</h1>
+  <button id="btn-red"    class="color-btn" data-color="#ff0000">Rojo</button>
+  <button id="btn-yellow" class="color-btn" data-color="#ffff00">Amarillo</button>
+  <button id="btn-green"  class="color-btn" data-color="#00ff00">Verde</button>
+
+  <script>
+    // Inicializamos Firestore
+    const db = firebase.firestore();
+
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const color = btn.dataset.color;
+
+        // 1) Guardar en localStorage
+        localStorage.setItem('sirenColor', color);
+
+        // 2) Actualizar en Firestore -> settings/siren.color
+        db.collection("settings").doc("siren")
+          .set({ color }, { merge: true })
+          .catch(err => console.error("Error guardando en Firestore:", err));
+
+        // 3) Si index.html o menu.html están abiertos, refrescarlos en caliente
+        if (window.opener && !window.opener.closed) {
+          // Aplicar CSS var
+          window.opener.document.documentElement.style.setProperty('--siren-color', color);
+          // Convertir hex → RGB para box-shadow
+          const hex = color.replace('#','');
+          const r = parseInt(hex.substr(0,2),16),
+                g = parseInt(hex.substr(2,2),16),
+                b = parseInt(hex.substr(4,2),16);
+          window.opener.document.documentElement.style.setProperty('--siren-rgb', `${r},${g},${b}`);
+        }
+
+        // Feedback visual rápido
+        btn.textContent = "✔️ " + btn.textContent;
+        setTimeout(() => btn.textContent = btn.textContent.replace('✔️ ', ''), 800);
+      });
+    });
+  </script>
+</body>
+</html>

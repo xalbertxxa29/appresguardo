@@ -1,0 +1,214 @@
+<!-- formulario-conductor.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHECK LIST Conductor</title>
+  <link rel="stylesheet" href="formulario-conductor.css" />
+</head>
+<body>
+  <div class="bg-image"></div>
+  <div class="overlay"></div>
+
+  <div class="form-container">
+    <h1>CHECK LIST</h1>
+    <h2 id="welcome-message" class="skeleton">Cargando...</h2>
+
+    <form id="conductor-form">
+      <!-- Sección 1 -->
+      <h3 class="section-header">1. ITEMS CRÍTICOS (Vuelta al gallo)</h3>
+      <div class="radio-group reveal">
+        <span class="question">FAROS DELANTEROS / FARO PIRATA</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit1-bueno" name="crit1" value="Bueno" required />
+          <label for="crit1-bueno">Bueno</label>
+          <input type="radio" id="crit1-malo" name="crit1" value="Malo" />
+          <label for="crit1-malo">Malo</label>
+        </div>
+      </div>
+      <div class="radio-group reveal">
+        <span class="question">FAROS NEBLINEROS</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit2-bueno" name="crit2" value="Bueno" required />
+          <label for="crit2-bueno">Bueno</label>
+          <input type="radio" id="crit2-malo" name="crit2" value="Malo" />
+          <label for="crit2-malo">Malo</label>
+        </div>
+      </div>
+      <div class="radio-group reveal">
+        <span class="question">LUCES DIRECCIONALES / ESTACIONAMIENTO</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit3-bueno" name="crit3" value="Bueno" required />
+          <label for="crit3-bueno">Bueno</label>
+          <input type="radio" id="crit3-malo" name="crit3" value="Malo" />
+          <label for="crit3-malo">Malo</label>
+        </div>
+    </div>
+    <div class="radio-group reveal">
+        <span class="question">LUCES DE FRENO</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit4-bueno" name="crit4" value="Bueno" required />
+          <label for="crit4-bueno">Bueno</label>
+          <input type="radio" id="crit4-malo" name="crit4" value="Malo" />
+          <label for="crit4-malo">Malo</label>
+        </div>
+    </div>
+    <div class="radio-group reveal">
+        <span class="question">LUCES DE RETROCESO / FARO PIRATA</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit5-bueno" name="crit5" value="Bueno" required />
+          <label for="crit5-bueno">Bueno</label>
+          <input type="radio" id="crit5-malo" name="crit5" value="Malo" />
+          <label for="crit5-malo">Malo</label>
+        </div>
+    </div>
+    <div class="radio-group reveal">
+        <span class="question">LUZ ESTROBOSCOPICA (CIRCULINA) / PERTIGA</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit6-bueno" name="crit6" value="Bueno" required />
+          <label for="crit6-bueno">Bueno</label>
+          <input type="radio" id="crit6-malo" name="crit6" value="Malo" />
+          <label for="crit6-malo">Malo</label>
+        </div>
+    </div>
+    <div class="radio-group reveal">
+        <span class="question">ESPEJOS RETROVISORES</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit7-bueno" name="crit7" value="Bueno" required />
+          <label for="crit7-bueno">Bueno</label>
+          <input type="radio" id="crit7-malo" name="crit7" value="Malo" />
+          <label for="crit7-malo">Malo</label>
+        </div>
+    </div>
+    <div class="radio-group reveal">
+        <span class="question">SEGURO DE TUERCAS (TRABATUERCAS)</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit8-bueno" name="crit8" value="Bueno" required />
+          <label for="crit8-bueno">Bueno</label>
+          <input type="radio" id="crit8-malo" name="crit8" value="Malo" />
+          <label for="crit8-malo">Malo</label>
+        </div>
+    </div>
+    <div class="radio-group reveal">
+        <span class="question">NEUMATICOS / INCLUIDO REPUESTO (Presión y Estado)</span>
+        <div class="radio-controls">
+          <input type="radio" id="crit9-bueno" name="crit9" value="Bueno" required />
+          <label for="crit9-bueno">Bueno</label>
+          <input type="radio" id="crit9-malo" name="crit9" value="Malo" />
+          <label for="crit9-malo">Malo</label>
+        </div>
+    </div>
+      <!-- ... repetir para cada elemento crítico -->
+
+      <!-- Sección 2 -->
+      <h3 class="section-header">2. ESTADO INTERNO</h3>
+      <div class="radio-group reveal">
+        <span class="question">CINTURONES DE SEGURIDAD</span>
+        <div class="radio-controls">
+          <input type="radio" id="int1-bueno" name="int1" value="Bueno" required />
+          <label for="int1-bueno">Bueno</label>
+          <input type="radio" id="int1-malo" name="int1" value="Malo" />
+          <label for="int1-malo">Malo</label>
+        </div>
+      </div>
+      <div class="radio-group reveal">
+        <span class="question">ALARMA DE RETROCESO</span>
+        <div class="radio-controls">
+          <input type="radio" id="int2-bueno" name="int2" value="Bueno" required />
+          <label for="int2-bueno">Bueno</label>
+          <input type="radio" id="int2-malo" name="int2" value="Malo" />
+          <label for="int2-malo">Malo</label>
+        </div>
+      </div>
+            <div class="radio-group reveal">
+        <span class="question">PANEL DE INSTRUMENTOS</span>
+        <div class="radio-controls">
+          <input type="radio" id="int3-bueno" name="int3" value="Bueno" required />
+          <label for="int3-bueno">Bueno</label>
+          <input type="radio" id="int3-malo" name="int3" value="Malo" />
+          <label for="int3-malo">Malo</label>
+        </div>
+      </div>
+      <div class="radio-group reveal">
+        <span class="question">CLAXON</span>
+        <div class="radio-controls">
+          <input type="radio" id="int4-bueno" name="int4" value="Bueno" required />
+          <label for="int4-bueno">Bueno</label>
+          <input type="radio" id="int4-malo" name="int4" value="Malo" />
+          <label for="int4-malo">Malo</label>
+        </div>
+      </div>
+      <div class="radio-group reveal">
+        <span class="question">TARJETA DE PROPIEDAD</span>
+        <div class="radio-controls">
+          <input type="radio" id="int5-bueno" name="int5" value="Bueno" required />
+          <label for="int5-bueno">Bueno</label>
+          <input type="radio" id="int5-malo" name="int5" value="Malo" />
+          <label for="int5-malo">Malo</label>
+        </div>
+      </div>
+      <!-- ... otros ítems sección 2 -->
+
+      <!-- Sección 3 -->
+      <h3 class="section-header">3. ESTADO MECÁNICO / ELÉCTRICO</h3>
+      <div class="radio-group reveal">
+        <span class="question">FRENOS</span>
+        <div class="radio-controls">
+          <input type="radio" id="mec1-bueno" name="mec1" value="Bueno" required />
+          <label for="mec1-bueno">Bueno</label>
+          <input type="radio" id="mec1-malo" name="mec1" value="Malo" />
+          <label for="mec1-malo">Malo</label>
+        </div>
+      </div>
+      <!-- ... otros ítems sección 3 -->
+
+      <!-- Sección 4 -->
+      <h3 class="section-header">4. ELEMENTOS DE SEGURIDAD</h3>
+      <div class="radio-group reveal">
+        <span class="question">TACOS DE SEGURIDAD (2)</span>
+        <div class="radio-controls">
+          <input type="radio" id="seg1-bueno" name="seg1" value="Bueno" required />
+          <label for="seg1-bueno">Bueno</label>
+          <input type="radio" id="seg1-malo" name="seg1" value="Malo" />
+          <label for="seg1-malo">Malo</label>
+        </div>
+      </div>
+      <!-- ... otros ítems sección 4 -->
+
+      <!-- Sección 5 -->
+      <h3 class="section-header">5. COMPROMISO DE PREVENCIÓN DE FATALIDAD (FPC)</h3>
+      <div class="radio-group reveal">
+        <span class="question">¿He descansado bien?</span>
+        <div class="radio-controls">
+          <input type="radio" id="fpc1-bueno" name="fpc1" value="Bueno" required />
+          <label for="fpc1-bueno">Bueno</label>
+          <input type="radio" id="fpc1-malo" name="fpc1" value="Malo" />
+          <label for="fpc1-malo">Malo</label>
+        </div>
+      </div>
+      <!-- ... otros ítems sección 5 -->
+
+      <!-- Observaciones -->
+      <div class="textarea-group reveal">
+        <label for="observaciones" class="textarea-label">Observaciones:</label>
+        <textarea id="observaciones" name="observaciones" rows="4" placeholder="Escribe tus observaciones aquí..."></textarea>
+      </div>
+
+      <button type="submit" id="submit-btn">Enviar</button>
+    </form>
+
+    <button id="back-btn">Atrás</button>
+  </div>
+
+  <!-- Lottie-Web -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie.min.js"></script>
+  <div id="lottie-modal"><div id="lottie-container"></div></div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="formulario-conductor.js"></script>
+</body>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liderman Resguardo</title>
+  <meta name="description" content="Seguridad de personal de Resguardo Liderman." />
+  <meta name="keywords" content="Liderman, Alarmas, Login, Dashboard, Seguridad" />
+  <meta name="author" content="Liderman tecnologia" />
+  <link rel="canonical" href="https://tu-sitio-web.com/" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Ocultar clear nativo & reforzar 'Recordarme' -->
+  <style>
+    input::-ms-clear,
+    input::-ms-reveal,
+    input::-webkit-search-decoration,
+    input::-webkit-search-cancel-button,
+    input::-webkit-search-results-button,
+    input::-webkit-search-results-decoration {
+      display: none;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .remember-me label {
+      color: #333;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* Mover la sirena justo encima del mensaje */
+    .login-title {
+      position: relative;
+      display: inline-block;
+    }
+
+    .login-title .siren {
+      position: absolute;
+      top: -8px;
+      right: -12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <h1 class="login-title">
+      Liderman&nbsp;
+      <span class="resguardo-text">Resguardo</span>
+      <span class="siren"></span>
+    </h1>
+
+    <div class="login-card">
+      <form id="login-form" aria-label="Formulario de inicio de sesión">
+        <div class="input-group">
+          <label for="username">DNI</label>
+          <input type="text" id="username" required placeholder=" " autocomplete="username">
+        </div>
+        <div class="input-group password-field">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" required placeholder=" ">
+          <button type="button" id="togglePassword" aria-label="Mostrar contraseña">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
+        </div>
+        <div class="remember-me">
+          <input type="checkbox" id="remember">
+          <label for="remember">Recordarme</label>
+        </div>
+        <button id="login-btn" type="submit">Iniciar sesión</button>
+      </form>
+      <div class="links"><a href="#">Políticas de Privacidad</a></div>
+      <div id="error-message" role="alert" aria-live="assertive"></div>
+    </div>
+  </div>
+
+  <div id="loadingOverlay" hidden>
+    <div class="spinner"></div>
+  </div>
+
+  <div class="modal-overlay" id="errorModal" tabindex="-1">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar modal">&times;</button>
+      <p id="modalMessage"></p>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+
+</html>

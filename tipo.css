@@ -1,0 +1,128 @@
+/* tipo.css */
+:root {
+    --bg-overlay: rgba(0,0,0,0.6);
+    --text-light: #f3f4f6;
+    --accent-color: #046b99;
+    --transition: 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  position: relative;
+  height: 100vh;
+}
+
+/* Fondo animado */
+.bg-image {
+  position: fixed;
+  inset: 0;
+  background: url('background.jpg') center/cover no-repeat;
+  animation: zoom 20s ease-in-out infinite;
+  z-index: -2;
+}
+@keyframes zoom {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Overlay semitransparente */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  z-index: -1;
+}
+
+/* Contenedor central */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+  margin: 0 auto;
+  top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--text-light);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Bienvenida */
+.welcome-message {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+/* Botones */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.btn {
+  flex: 1 1 120px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  perspective: 1000px;
+}
+.btn-resguardo {
+  background: linear-gradient(135deg, #4da8da, var(--accent-color));
+  box-shadow: 0 8px 20px rgba(4,107,153,0.4), inset 0 -4px 8px rgba(255,255,255,0.2);
+  color: #fff;
+}
+.btn-conductor {
+  background: linear-gradient(135deg, #FF9800, #E65100);
+  box-shadow: 0 8px 20px rgba(230,81,0,0.4), inset 0 -4px 8px rgba(255,255,255,0.2);
+  color: #fff;
+}
+.btn-back {
+  background: transparent;
+  color: var(--text-light);
+  border: 1px solid var(--text-light);
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  margin: 0 auto;
+}
+.btn:hover {
+  transform: translateY(-4px) rotateX(4deg) rotateY(4deg) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+.btn-back:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 400px) {
+  .container { width: 90%; padding: 1.5rem; }
+  h1 { font-size: 1.8rem; }
+  .welcome-message { font-size: 1.2rem; }
+}

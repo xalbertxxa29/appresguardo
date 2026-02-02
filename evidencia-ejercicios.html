@@ -1,0 +1,40 @@
+<!-- evidencia-ejercicios.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evidencia de Ejercicios</title>
+  <link rel="stylesheet" href="evidencia-ejercicios.css"/>
+</head>
+<body>
+  <div class="form-container">
+    <h1 id="welcome-message">Cargando...</h1>
+
+    <label for="rutina-select">Elige Rutina</label>
+    <select id="rutina-select" required>
+      <option value="">Selecciona...</option>
+      <option value="fuerza">Fuerza</option>
+      <option value="cardio">Cardio</option>
+      <option value="flexibilidad">Flexibilidad</option>
+    </select>
+
+    <div id="photo-preview-container">
+      <img id="photo-preview" alt="Previsualización"/>
+    </div>
+
+    <!-- Botones diferenciados -->
+    <button id="camera-btn" class="evi-btn camera-btn">📷 Cámara</button>
+    <button id="enviar-btn"  class="evi-btn enviar-btn">📤 Enviar</button>
+    <button id="back-btn"    class="evi-btn back-btn">↩️ Atrás</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="evidencia-ejercicios.js"></script>
+</body>
+</html>

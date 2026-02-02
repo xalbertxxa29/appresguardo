@@ -1,0 +1,55 @@
+/* formulario-conductor.css */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Arial, sans-serif;
+  background: url('fondo.jpg') center/cover fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #fff;
+  overflow-x: hidden;
+}
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1; }
+.form-container {
+  position: relative; z-index: 2;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+  padding: 2rem; border-radius: 15px;
+  width: 90%; max-width: 400px;
+  animation: fadeInBody 0.8s ease;
+}
+h1 { text-align: center; font-size: 2rem; margin-bottom: 0.5rem; }
+#welcome-message {
+  text-align: center; font-size: 1.2rem; margin-bottom: 1.5rem;
+  overflow: hidden; border-right: .15em solid #fff;
+}
+.skeleton { background: linear-gradient(90deg,#444,#555,#444); background-size:200% 100%; animation: shine 1.5s infinite; }
+@keyframes shine { to { background-position: -200% 0; } }
+.section-header { font-size: 1rem; margin: 1rem 0 0.5rem; border-bottom: 1px solid #555; padding-bottom: 0.3rem; }
+.radio-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; opacity: 0; transform: translateY(20px); transition: opacity 500ms ease, transform 500ms ease; }
+.radio-group.visible { opacity: 1; transform: translateY(0); }
+.question { flex: 1; font-size: 1rem; }
+.radio-controls { display: flex; align-items: center; gap: 0.5rem; min-width: 120px; }
+.radio-controls input[type="radio"] { transform: scale(1.8); accent-color: #28a745; cursor: pointer; }
+.radio-controls label { font-weight: bold; cursor: pointer; }
+.textarea-group { margin-top: 1.5rem; opacity: 0; transform: translateY(20px); transition: opacity 500ms ease, transform 500ms ease; }
+.textarea-group.visible { opacity: 1; transform: translateY(0); }
+.textarea-label { display: block; margin-bottom: 0.5rem; font-size: 1rem; color: #f3f4f6; }
+textarea#observaciones {
+  width: 100%; padding: 0.75rem; border-radius: 8px; border: none;
+  resize: vertical; font-size: 1rem; background: rgba(255,255,255,0.8); color: #111;
+}
+#submit-btn, #back-btn {
+  width: 100%; padding: 0.75rem; margin-top: 1rem; font-size: 1rem; font-weight: bold;
+  border: none; border-radius: 25px; cursor: pointer; position: relative; overflow: hidden;
+  background: linear-gradient(270deg,#28a745,#218838,#28a745); background-size:600% 600%;
+  animation: gradientShift 8s ease infinite; transition: transform .2s, box-shadow .3s;
+}
+#back-btn { background: #dc3545; animation: none; }
+#submit-btn:hover, #back-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+#submit-btn:active { transform: scale(0.97); }
+#back-btn:hover { background: #c82333; }
+@keyframes gradientShift { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+@keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blink { 50% { border-color: transparent; } }

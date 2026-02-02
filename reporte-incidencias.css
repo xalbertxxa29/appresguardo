@@ -1,0 +1,233 @@
+/* reporte-incidencias.css - versión responsive mejorada */
+
+:root {
+  --bg-overlay: rgba(0,0,0,0.4);
+  --container-bg: rgba(255,255,255,0.15);
+  --container-border: rgba(255,255,255,0.25);
+  --primary-blue-start: #4da8da;
+  --primary-blue-end: #046b99;
+  --primary-orange: #FF9800;
+  --secondary-gray: #9E9E9E;
+  --text-light: #f3f4f6;
+  --text-dark: #111827;
+  --transition-fast: 0.4s cubic-bezier(0.19,1,0.22,1);
+}
+
+/* Reset e inicio mobile-first */
+*, *::before, *::after {
+box-sizing: border-box;
+}
+body {
+margin: 0;
+padding: 0;
+font-family: 'Inter', sans-serif;
+background: url('fondo-ejercicio.jpg') center/cover scroll no-repeat;
+position: relative;
+overflow: auto;
+}
+body::before {
+content: '';
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background: var(--bg-overlay);
+z-index: 0;
+}
+
+/* Contenedor principal */
+.form-container {
+position: relative;
+z-index: 1;
+background: var(--container-bg);
+backdrop-filter: blur(20px);
+border: 1px solid var(--container-border);
+width: 95%;
+max-width: 400px;
+margin: 2rem auto;
+padding: 2rem;
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+text-align: center;
+}
+
+#welcome-message {
+margin-bottom: 1.5rem;
+font-size: 1.6rem;
+color: var(--text-light);
+}
+
+label {
+display: block;
+margin: 1rem 0 0.5rem;
+font-weight: 600;
+color: var(--text-light);
+text-align: left;
+}
+
+textarea {
+width: 100%;
+padding: 0.75rem;
+margin-bottom: 1.5rem;
+border: none;
+border-radius: 8px;
+font-size: 1rem;
+background: rgba(255,255,255,0.8);
+color: var(--text-dark);
+box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+resize: vertical;
+transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+textarea:hover,
+textarea:focus {
+transform: scale(1.02);
+box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+#photo-preview-container {
+margin: 1.5rem 0;
+}
+#photo-preview {
+display: none;
+width: 100%;
+max-width: 80px;
+height: auto;
+margin: 0 auto;
+border-radius: 8px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.evi-btn {
+display: inline-block;
+margin: 1rem auto;
+cursor: pointer;
+font-size: 1rem;
+font-weight: 600;
+transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+transform-style: preserve-3d;
+}
+.evi-btn:hover {
+transform: rotateX(8deg) rotateY(8deg) translateZ(12px) scale(1.05);
+box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.camera-btn {
+background: linear-gradient(135deg, var(--primary-blue-start), var(--primary-blue-end));
+color: #fff;
+border: 2px solid rgba(255,255,255,0.6);
+border-radius: 40px;
+padding: 1rem 1.5rem;
+font-size: 1.05rem;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 0.5rem;
+box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 -4px 10px rgba(255,255,255,0.2);
+transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.camera-btn:hover {
+transform: translateY(-3px) scale(1.05);
+box-shadow: 0 12px 25px rgba(0,0,0,0.35), inset 0 -4px 10px rgba(255,255,255,0.25);
+}
+
+.enviar-btn,
+.back-btn {
+display: block;
+width: 100%;
+margin: 1rem 0;
+padding: 0.75rem;
+font-size: 1.05rem;
+font-weight: 600;
+border-radius: 8px;
+border: none;
+transition: box-shadow var(--transition-fast);
+}
+.enviar-btn {
+background: var(--primary-orange);
+color: #fff;
+box-shadow: 0 4px 16px rgba(255,152,0,0.4);
+}
+.enviar-btn:hover {
+box-shadow: 0 8px 32px rgba(255,152,0,0.6);
+}
+.back-btn {
+background: var(--secondary-gray);
+color: #fff;
+box-shadow: 0 4px 16px rgba(158,158,158,0.4);
+}
+.back-btn:hover {
+box-shadow: 0 8px 32px rgba(158,158,158,0.6);
+}
+
+/* Loader animado */
+.loader {
+border: 3px solid rgba(255,255,255,0.6);
+border-top: 3px solid #fff;
+border-radius: 50%;
+width: 18px;
+height: 18px;
+display: inline-block;
+vertical-align: middle;
+animation: spin 1s linear infinite;
+margin-right: 0.5rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.fullscreen-loader {
+position: fixed;
+top: 0; left: 0;
+width: 100vw; height: 100vh;
+background: rgba(0,0,0,0.6);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 2000;
+}
+.fullscreen-loader .loader {
+width: 50px;
+height: 50px;
+border-width: 5px;
+}
+
+/* Overlay de cámara centrado full-screen */
+.capture-container {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.9);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 3000;
+}
+.capture-container video {
+width: 100%;
+max-width: 360px;
+border-radius: 8px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* Breakpoints adicionales */
+@media (max-width: 480px) {
+.form-container {
+  margin: 1rem auto;
+  padding: 1rem;
+  max-width: 320px;
+}
+#welcome-message {
+  font-size: 1.4rem;
+}
+textarea {
+  font-size: 0.9rem;
+  padding: 0.5rem;
+}
+#photo-preview {
+  max-width: 60px;
+}
+.camera-btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+}
+.evi-btn, .enviar-btn, .back-btn {
+  font-size: 1rem;
+  padding: 0.6rem 0;
+}
+}

@@ -1,0 +1,35 @@
+<!-- tipo.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Tipo de Resguardo</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tipo.css">
+</head>
+<body>
+  <div class="bg-image"></div>
+  <div class="overlay"></div>
+  <div class="container">
+    <!-- Mensaje de bienvenida -->
+    <p id="welcome-message" class="welcome-message">Cargando...</p>
+    <h1>Tipo de Resguardo</h1>
+    <div class="button-group">
+      <button id="resguardo-btn" class="btn btn-resguardo">Resguardo</button>
+      <button id="conductor-btn" class="btn btn-conductor">Conductor</button>
+    </div>
+    <button id="back-btn" class="btn btn-back">Regresar</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <!-- Configuración de Firebase -->
+  <script src="firebase-config.js"></script>
+  <!-- Lógica de la página -->
+  <script src="tipo.js"></script>
+</body>
+</html>

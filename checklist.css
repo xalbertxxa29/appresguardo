@@ -1,0 +1,280 @@
+/* checklist.css */
+/* Estilos unificados para el Checklist combinando Resguardo y Conductor */
+
+:root {
+  --primary-color: #d32f2f; /* Rojo Liderman */
+  --secondary-color: #b71c1c;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --text-color: #333;
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --transition: 0.3s ease;
+  --bg-form: rgba(255, 255, 255, 0.95);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Fondo base */
+  background: #f0f2f5;
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+/* Fondo con imagen y overlay */
+.bg-image {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('fondo.jpg') no-repeat center center/cover;
+  z-index: -2;
+}
+.overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Oscurecer fondo */
+  z-index: -1;
+}
+
+/* Contenedor Principal */
+.form-container {
+  width: 90%;
+  max-width: 600px;
+  background: var(--bg-form);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin: 2rem 0;
+  animation: slideUp 0.8s ease forwards;
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  min-height: 1.2rem;
+}
+
+/* Selector de Roles */
+.role-selector {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.role-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.role-options {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.role-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+.role-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-color);
+}
+
+/* Secciones del Formulario */
+.form-section {
+  display: none; /* Oculto por defecto */
+  border-top: 2px solid #eee;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.5s ease;
+}
+.form-section.active {
+  display: block;
+}
+.section-header {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  margin: 1.5rem 0 1rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.section-title-main {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #222;
+  margin-bottom: 1rem;
+  background: #eaeaea;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* Preguntas / Radio Groups */
+.radio-group {
+  margin-bottom: 1.2rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border-left: 4px solid var(--primary-color);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.radio-group.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.question {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #444;
+}
+
+.radio-controls {
+  display: flex;
+  gap: 1.5rem;
+}
+.radio-controls input[type="radio"] {
+  display: none;
+}
+.radio-controls label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  transition: color 0.2s;
+}
+.radio-controls label::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px;
+  border: 2px solid #aaa;
+  border-radius: 50%;
+  background: #fff;
+  transition: border-color 0.2s, background 0.2s;
+}
+/* Estado Checked */
+.radio-controls input[type="radio"]:checked + label {
+  color: var(--primary-color);
+}
+.radio-controls input[type="radio"]:checked + label::before {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  box-shadow: inset 0 0 0 4px #fff;
+}
+
+/* Textarea Observaciones */
+.textarea-group {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.textarea-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Botones */
+button {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#submit-btn {
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
+}
+#submit-btn:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+#back-btn {
+  background: #555;
+  color: #fff;
+  margin-top: 2rem;
+}
+#back-btn:hover {
+  background: #333;
+}
+
+/* Animaciones de carga / Skeleton */
+.skeleton {
+  color: transparent;
+  background: #ddd;
+  border-radius: 4px;
+}
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Lottie Modal */
+#lottie-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(255,255,255,0.9);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+#lottie-container {
+  width: 300px;
+  height: 300px;
+}

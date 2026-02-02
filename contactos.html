@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contactos de Emergencia</title>
+  <link rel="stylesheet" href="contacts.css"/>
+</head>
+<body>
+  <div class="contacts-page">
+    <div class="contacts-container">
+      <h1 class="reveal">Contactos de Emergencia</h1>
+      <div class="contacts-list">
+        <button class="contact-btn reveal" data-phone="+51913903063">
+          <span class="icon">📞</span>
+          <span class="text">Sergio Giampietri</span>
+        </button>
+        <button class="contact-btn reveal" data-phone="+51981878599">
+          <span class="icon">📞</span>
+          <span class="text">Ron Blum</span>
+        </button>
+        <button class="contact-btn reveal" data-phone="+51905479166">
+          <span class="icon">📞</span>
+          <span class="text">Jorge Delgado</span>
+        </button>
+        <button class="contact-btn reveal" data-phone="+51958418569">
+          <span class="icon">📞</span>
+          <span class="text">Victor Reategui</span>
+        </button>
+        <button class="contact-btn reveal" data-phone="+51958118755">
+          <span class="icon">📞</span>
+          <span class="text">Centro de control explosivo de PPE (Juan Nunez)</span>
+        </button>
+      </div>
+      <button id="back-btn" class="control-btn reveal">← Atrás</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <!-- Configuración de Firebase -->
+  <script src="firebase-config.js"></script>
+  <!-- Lógica de contactos -->
+  <script src="contacts.js"></script>
+</body>
+</html>

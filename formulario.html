@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CHECK LIST</title>
+  <link rel="stylesheet" href="formulario.css"/>
+</head>
+<body>
+  <div class="form-container">
+    <h1>CHECK LIST</h1>
+    <h2 id="welcome-message" class="skeleton">Cargando...</h2>
+
+    <form id="checklist-form">
+      <!-- Ítem 1 -->
+      <div class="radio-group reveal">
+        <span class="question">Arma:</span>
+        <div class="radio-controls">
+          <input type="radio" id="arma-si" name="arma" value="Sí" checked>
+          <label for="arma-si">Sí</label>
+          <input type="radio" id="arma-no" name="arma" value="No">
+          <label for="arma-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 2 -->
+      <div class="radio-group reveal">
+        <span class="question">Cacerina:</span>
+        <div class="radio-controls">
+          <input type="radio" id="cacerina-si" name="cacerina" value="Sí" checked>
+          <label for="cacerina-si">Sí</label>
+          <input type="radio" id="cacerina-no" name="cacerina" value="No">
+          <label for="cacerina-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 3 -->
+      <div class="radio-group reveal">
+        <span class="question">Chaleco Antibalas:</span>
+        <div class="radio-controls">
+          <input type="radio" id="chaleco-si" name="chaleco" value="Sí" checked>
+          <label for="chaleco-si">Sí</label>
+          <input type="radio" id="chaleco-no" name="chaleco" value="No">
+          <label for="chaleco-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 4 -->
+      <div class="radio-group reveal">
+        <span class="question">Sombrero de Identificación:</span>
+        <div class="radio-controls">
+          <input type="radio" id="sombrero-si" name="sombrero" value="Sí" checked>
+          <label for="sombrero-si">Sí</label>
+          <input type="radio" id="sombrero-no" name="sombrero" value="No">
+          <label for="sombrero-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 5 -->
+      <div class="radio-group reveal">
+        <span class="question">Pin de Identificación:</span>
+        <div class="radio-controls">
+          <input type="radio" id="pin-si" name="pin" value="Sí" checked>
+          <label for="pin-si">Sí</label>
+          <input type="radio" id="pin-no" name="pin" value="No">
+          <label for="pin-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 6 -->
+      <div class="radio-group reveal">
+        <span class="question">Carnet de SUCAMEC:</span>
+        <div class="radio-controls">
+          <input type="radio" id="carnet-si" name="carnet" value="Sí" checked>
+          <label for="carnet-si">Sí</label>
+          <input type="radio" id="carnet-no" name="carnet" value="No">
+          <label for="carnet-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 7 -->
+      <div class="radio-group reveal">
+        <span class="question">Tarjeta de Propiedad:</span>
+        <div class="radio-controls">
+          <input type="radio" id="tarjeta-si" name="tarjeta" value="Sí" checked>
+          <label for="tarjeta-si">Sí</label>
+          <input type="radio" id="tarjeta-no" name="tarjeta" value="No">
+          <label for="tarjeta-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 8 -->
+      <div class="radio-group reveal">
+        <span class="question">Licencia de Conducir:</span>
+        <div class="radio-controls">
+          <input type="radio" id="licencia-si" name="licencia" value="Sí" checked>
+          <label for="licencia-si">Sí</label>
+          <input type="radio" id="licencia-no" name="licencia" value="No">
+          <label for="licencia-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 9 -->
+      <div class="radio-group reveal">
+        <span class="question">Fundas (para el arma):</span>
+        <div class="radio-controls">
+          <input type="radio" id="fundas-si" name="fundas" value="Sí" checked>
+          <label for="fundas-si">Sí</label>
+          <input type="radio" id="fundas-no" name="fundas" value="No">
+          <label for="fundas-no">No</label>
+        </div>
+      </div>
+
+      <!-- Ítem 10 -->
+      <div class="radio-group reveal">
+        <span class="question">Radios de comunicación:</span>
+        <div class="radio-controls">
+          <input type="radio" id="radios-si" name="radios" value="Sí" checked>
+          <label for="radios-si">Sí</label>
+          <input type="radio" id="radios-no" name="radios" value="No">
+          <label for="radios-no">No</label>
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn">Enviar</button>
+    </form>
+
+    <button id="back-btn">Atrás</button>
+  </div>
+
+  <!-- Lottie-Web para animación de envío -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie.min.js"></script>
+  <div id="lottie-modal"><div id="lottie-container"></div></div>
+
+  <!-- Firebase SDKs y configuración -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="formulario.js"></script>
+</body>
+</html>

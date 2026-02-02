@@ -1,0 +1,200 @@
+/* formulario.css */
+
+/* === Reset & Global === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: url('fondo.jpg') center/cover fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: white;
+}
+
+/* === Container === */
+.form-container {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.form-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* === Titles & Skeleton === */
+h1 {
+  text-align: center;
+  margin-bottom: .5rem;
+  font-size: 2rem;
+}
+h2#welcome-message {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  overflow: hidden;
+  border-right: .15em solid #fff;
+}
+.skeleton {
+  background: linear-gradient(90deg,#444,#555,#444);
+  background-size:200% 100%;
+  animation: shine 1.5s infinite;
+}
+@keyframes shine {
+  to { background-position: -200% 0; }
+}
+
+/* === Reveal on scroll === */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Select Groups (Combo boxes) === */
+.select-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.select-group label {
+  flex: 1;
+  font-size: 1rem;
+  color: #fff;
+}
+.select-group select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background: #fff;
+  color: #000;
+  transition: transform 0.2s;
+}
+.select-group select:hover,
+.select-group select:focus {
+  transform: scale(1.05);
+  outline: none;
+}
+
+/* === Buttons & Gradient Shift === */
+button {
+  width: 100%;
+  padding: .75rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(270deg,#28a745,#218838,#28a745);
+  background-size:600% 600%;
+  animation: gradientShift 8s ease infinite;
+  transition: transform .2s, box-shadow .3s;
+}
+button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+button:active {
+  transform: scale(0.97);
+  box-shadow:
+    inset 4px 4px 8px rgba(0,0,0,0.2),
+    inset -4px -4px 8px rgba(255,255,255,0.1);
+}
+@keyframes gradientShift {
+  0%   { background-position:0% 50%; }
+  50%  { background-position:100% 50%; }
+ 100%  { background-position:0% 50%; }
+}
+
+/* === Submit & Back specifics === */
+#submit-btn {
+  background: #28a745;
+  color: #fff;
+}
+#back-btn {
+  background: #dc3545;
+  color: #fff;
+}
+#back-btn:hover {
+  background: #c82333;
+}
+
+/* === Lottie Modal === */
+#lottie-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#lottie-container {
+  width: 200px;
+  height: 200px;
+}
+
+/* === Animations === */
+@keyframes fadeInBody {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+/* === Radio Groups === */
+.radio-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.25rem 0;
+}
+.radio-group .question {
+  flex: 1;
+  font-size: 1rem;
+  color: #fff;
+}
+.radio-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  min-width: 120px;
+}
+.radio-controls input[type="radio"] {
+  transform: scale(1.9);
+  accent-color: #28a745;
+  cursor: pointer;
+}
+.radio-controls label {
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: color .2s;
+}
+.radio-controls label:hover {
+  color: #28a745;
+}
