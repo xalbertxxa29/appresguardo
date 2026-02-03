@@ -79,6 +79,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+    // Helper Notificación
+    function showNotification(title, message, isError = false) {
+        const modal = document.getElementById("notification-modal");
+        const titleEl = document.getElementById("notification-title");
+        const msgEl = document.getElementById("notification-message");
+        const okBtn = document.getElementById("notification-ok-btn");
+        const iconEl = document.getElementById("notif-icon");
+
+        if (!modal) return alert(message);
+
+        titleEl.textContent = title;
+        msgEl.innerHTML = message;
+
+        if (isError) {
+            titleEl.style.color = "#d32f2f";
+            okBtn.style.backgroundColor = "#d32f2f";
+            if (iconEl) iconEl.textContent = "❌";
+        } else {
+            titleEl.style.color = "#28a745";
+            okBtn.style.backgroundColor = "#28a745";
+            if (iconEl) iconEl.textContent = "✅";
+        }
+
+        modal.style.display = "flex";
+
+        const newOkBtn = okBtn.cloneNode(true);
+        okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+        newOkBtn.onclick = () => modal.style.display = "none";
+    }
+
     // 6. Submit Logic
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -132,8 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "menu.html";
             } catch (error) {
                 console.error("Error guardando:", error);
-                alert("Error al guardar. Intenta nuevamente.");
                 lottieModal.style.display = "none";
+                showNotification("Error", "Error al guardar el checklist. Intenta nuevamente.", true);
             }
         });
     });

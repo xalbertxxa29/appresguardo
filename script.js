@@ -7,6 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  // ——— Verificación de Sesión Persistente ———
+  // Si el usuario ya está logueado, redirigir al menú inmediatamente.
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      window.location.href = "menu.html";
+    }
+  });
+
   // ——— Función para validar Hexadecimal ———
   function isValidHex(hex) {
     return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
